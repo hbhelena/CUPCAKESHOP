@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cupcake Shop</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; margin: 0; padding: 0; background-color: #f8f9fa; color: #333; }
+        header { display: flex; justify-content: space-between; align-items: center; padding: 20px 50px; background-color: white; border-bottom: 1px solid #eaeaea; }
+        h1 { margin: 0; font-size: 24px; font-weight: bold;}
+        nav a { margin-left: 20px; text-decoration: none; color: #555; font-size: 14px; font-weight: 500;}
+        nav a:hover { color: #000; }
+        .container { max-width: 1000px; margin: 40px auto; padding: 0 20px; }
+        .titulo-secao { margin-bottom: 30px; }
+        .titulo-secao h2 { margin: 0; font-size: 26px; }
+        .titulo-secao p { color: #666; font-size: 14px; margin-top: 5px;}
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px; }
+        .card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
+        .card img { width: 100%; height: 220px; object-fit: cover; border-radius: 6px; }
+        .card h3 { margin: 15px 0 8px; font-size: 18px; }
+        .card p { color: #666; font-size: 13px; line-height: 1.5; min-height: 40px; margin-bottom: 20px;}
+        .rodape-card { display: flex; justify-content: space-between; align-items: center; }
+        .preco { font-weight: bold; font-size: 16px; }
+        .btn-adicionar { padding: 8px 16px; background-color: #f1f3f5; border: none; border-radius: 6px; cursor: pointer; font-weight: 500; font-size: 13px; transition: background-color 0.2s;}
+        .btn-adicionar:hover { background-color: #e2e6ea; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Cupcake Shop</h1>
+        <nav>
+            <a href="/">Catálogo</a>
+            <a href="/carrinho" style="font-weight: bold; color: #000;">Carrinho ({{ total_itens }})</a>
+        </nav>
+    </header>
+
+    <div class="container">
+        <div class="titulo-secao">
+            <h2>Nossos Cupcakes</h2>
+            <p>Escolha seus sabores favoritos.</p>
+        </div>
+
+        <div class="grid">
+            {% for cupcake in cupcakes %}
+            <div class="card">
+                <img src="{{ cupcake.imagem }}" alt="{{ cupcake.nome }}">
+                <h3>{{ cupcake.nome }}</h3>
+                <p>{{ cupcake.descricao }}</p>
+                <div class="rodape-card">
+                    <span class="preco">R$ {{ "%.2f"|format(cupcake.preco) }}</span>
+                    <a href="/adicionar/{{ cupcake.id }}">
+                        <button class="btn-adicionar">Adicionar</button>
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>

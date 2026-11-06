@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Carrinho - Cupcake Shop</title>
+    <style>
+        body { font-family: -apple-system, sans-serif; background-color: #f8f9fa; margin: 0; }
+        header { padding: 20px 50px; background-color: white; border-bottom: 1px solid #eaeaea; display: flex; justify-content: space-between;}
+        .container { max-width: 600px; margin: 40px auto; background: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
+        .item { display: flex; justify-content: space-between; border-bottom: 1px solid #eee; padding: 15px 0; }
+        .total { font-size: 20px; font-weight: bold; margin-top: 20px; text-align: right; }
+        .btn-finalizar { display: block; width: 100%; padding: 15px; background: #28a745; color: white; text-align: center; border: none; border-radius: 6px; margin-top: 20px; text-decoration: none; font-size: 16px; font-weight: bold;}
+    </style>
+</head>
+<body>
+    <header>
+        <h1 style="margin: 0; font-size: 24px;">Cupcake Shop</h1>
+        <a href="/" style="color: #333; text-decoration: none; padding-top: 5px;">Voltar ao Catálogo</a>
+    </header>
+    <div class="container">
+        <h2>Seu Carrinho ({{ total_itens }})</h2>
+        {% if total_itens > 0 %}
+            {% for prod in produtos %}
+            <div class="item">
+                <span>{{ prod.nome }}</span>
+                <span>R$ {{ "%.2f"|format(prod.preco) }}</span>
+            </div>
+            {% endfor %}
+            <div class="total">Total: R$ {{ "%.2f"|format(total) }}</div>
+            <a href="/finalizar" class="btn-finalizar">Finalizar Pedido Simulado</a>
+        {% else %}
+            <p>Seu carrinho está vazio.</p>
+        {% endif %}
+    </div>
+</body>
+</html>
