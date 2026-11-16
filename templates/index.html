@@ -1,60 +1,445 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cupcake Shop</title>
+    <title>Sweet Cupcake | Confeitaria Artesanal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; margin: 0; padding: 0; background-color: #f8f9fa; color: #333; }
-        header { display: flex; justify-content: space-between; align-items: center; padding: 20px 50px; background-color: white; border-bottom: 1px solid #eaeaea; }
-        h1 { margin: 0; font-size: 24px; font-weight: bold;}
-        nav a { margin-left: 20px; text-decoration: none; color: #555; font-size: 14px; font-weight: 500;}
-        nav a:hover { color: #000; }
-        .container { max-width: 1000px; margin: 40px auto; padding: 0 20px; }
-        .titulo-secao { margin-bottom: 30px; }
-        .titulo-secao h2 { margin: 0; font-size: 26px; }
-        .titulo-secao p { color: #666; font-size: 14px; margin-top: 5px;}
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px; }
-        .card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
-        .card img { width: 100%; height: 220px; object-fit: cover; border-radius: 6px; }
-        .card h3 { margin: 15px 0 8px; font-size: 18px; }
-        .card p { color: #666; font-size: 13px; line-height: 1.5; min-height: 40px; margin-bottom: 20px;}
-        .rodape-card { display: flex; justify-content: space-between; align-items: center; }
-        .preco { font-weight: bold; font-size: 16px; }
-        .btn-adicionar { padding: 8px 16px; background-color: #f1f3f5; border: none; border-radius: 6px; cursor: pointer; font-weight: 500; font-size: 13px; transition: background-color 0.2s;}
-        .btn-adicionar:hover { background-color: #e2e6ea; }
+        body {
+            font-family: 'Quicksand', 'Segoe UI', sans-serif;
+            background: linear-gradient(180deg, #fff9fb 0%, #fdf2f7 100%);
+            margin: 0;
+            color: #5c434c;
+            min-height: 100vh;
+        }
+        header {
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(8px);
+            padding: 16px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #fce4ec;
+            box-shadow: 0 4px 15px rgba(244, 143, 177, 0.08);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+        .logo-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #fce4ec 0%, #f8bbd0 100%);
+            border-radius: 50%;
+            font-size: 1.35rem;
+            animation: floatIcon 2.8s ease-in-out infinite;
+            box-shadow: 0 3px 10px rgba(236, 64, 122, 0.18);
+            border: 2px solid #fff;
+        }
+        .logo-text {
+            font-family: 'Pacifico', cursive;
+            font-size: 1.55rem;
+            color: #d81b60;
+            letter-spacing: 0.5px;
+        }
+        @keyframes floatIcon {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-4px) rotate(6deg); }
+        }
+        nav {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        nav a {
+            text-decoration: none;
+            color: #88606e;
+            font-size: 0.95rem;
+            font-weight: 600;
+            padding: 8px 16px;
+            border-radius: 20px;
+            transition: all 0.2s;
+        }
+        nav a:hover {
+            color: #d81b60;
+            background: #fce4ec;
+        }
+        nav a.carrinho-link {
+            background: #fce4ec;
+            color: #c2185b;
+            font-weight: 700;
+            border: 1px solid #f8bbd0;
+        }
+        nav a.carrinho-link:hover {
+            background: #f8bbd0;
+            color: #880e4f;
+        }
+        .container {
+            max-width: 980px;
+            margin: 40px auto 60px;
+            padding: 0 20px;
+        }
+        .hero-title {
+            text-align: center;
+            margin-bottom: 34px;
+        }
+        h1 {
+            font-size: 1.8rem;
+            color: #ad1457;
+            margin-bottom: 6px;
+            font-weight: 700;
+        }
+        .subtitulo {
+            color: #9e7b88;
+            font-size: 0.98rem;
+            margin: 0;
+            font-weight: 500;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 26px;
+        }
+        .card {
+            background: #ffffff;
+            border: 1.5px solid #fce4ec;
+            border-radius: 18px;
+            padding: 18px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+            box-shadow: 0 6px 20px rgba(244, 143, 177, 0.1);
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 28px rgba(244, 143, 177, 0.22);
+            border-color: #f8bbd0;
+        }
+        .img-wrapper {
+            position: relative;
+            width: 100%;
+            height: 205px;
+            margin-bottom: 14px;
+            border-radius: 12px;
+            overflow: hidden;
+            background: #fff5f8;
+        }
+        .card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 12px;
+            transition: transform 0.3s ease;
+        }
+        .card:hover img {
+            transform: scale(1.03);
+        }
+        .card.esgotado img {
+            filter: grayscale(35%) opacity(0.82);
+        }
+        .badge-favorito {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: #fff9db;
+            color: #b7791f;
+            border: 1px solid #fae38c;
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 5px 12px;
+            border-radius: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            z-index: 2;
+        }
+        .badge-esgotado {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #ffe3ec;
+            color: #ad1457;
+            border: 1px solid #f8bbd0;
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 5px 12px;
+            border-radius: 20px;
+            z-index: 2;
+        }
+        .card h3 {
+            font-size: 1.12rem;
+            color: #6d3b4e;
+            margin: 4px 0 6px;
+            font-weight: 700;
+        }
+        .card p {
+            color: #8c6d79;
+            font-size: 0.88rem;
+            line-height: 1.45;
+            margin: 0 0 18px;
+            flex-grow: 1;
+        }
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px dashed #f8bbd0;
+            padding-top: 14px;
+        }
+        .preco {
+            font-weight: 700;
+            font-size: 1.05rem;
+            color: #c2185b;
+        }
+        .btn-adicionar {
+            background: linear-gradient(135deg, #f48fb1 0%, #ec407a 100%);
+            border: none;
+            padding: 8px 18px;
+            border-radius: 20px;
+            text-decoration: none;
+            color: #fff;
+            font-size: 0.85rem;
+            font-weight: 700;
+            box-shadow: 0 3px 10px rgba(236, 64, 122, 0.25);
+            transition: all 0.2s;
+        }
+        .btn-adicionar:hover {
+            background: linear-gradient(135deg, #ec407a 0%, #d81b60 100%);
+            transform: scale(1.04);
+            box-shadow: 0 5px 14px rgba(216, 27, 96, 0.35);
+        }
+        .btn-esgotado {
+            background: #f5eef0;
+            border: 1px solid #e6d8dd;
+            padding: 8px 16px;
+            border-radius: 20px;
+            color: #b099a1;
+            font-family: inherit;
+            font-size: 0.85rem;
+            font-weight: 700;
+            cursor: not-allowed;
+        }
+
+        /* Botão flutuante e Modal de Avaliação */
+        .btn-avaliar-flutuante {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: linear-gradient(135deg, #ec407a 0%, #d81b60 100%);
+            color: #fff;
+            border: 2px solid #fff;
+            padding: 12px 20px;
+            border-radius: 30px;
+            font-family: inherit;
+            font-size: 0.92rem;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 6px 18px rgba(216, 27, 96, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: transform 0.2s, box-shadow 0.2s;
+            z-index: 999;
+        }
+        .btn-avaliar-flutuante:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 22px rgba(216, 27, 96, 0.4);
+        }
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(92, 67, 76, 0.4);
+            backdrop-filter: blur(3px);
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+        .modal-box {
+            background: #fff;
+            width: 90%;
+            max-width: 390px;
+            border-radius: 20px;
+            padding: 26px;
+            border: 2px solid #fce4ec;
+            box-shadow: 0 12px 35px rgba(216, 27, 96, 0.18);
+            position: relative;
+        }
+        .modal-close {
+            position: absolute;
+            top: 14px;
+            right: 16px;
+            background: #fce4ec;
+            border: none;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            font-size: 0.9rem;
+            cursor: pointer;
+            color: #ad1457;
+            font-weight: 700;
+        }
+        .modal-box h4 {
+            margin: 0 0 6px;
+            font-size: 1.2rem;
+            color: #ad1457;
+        }
+        .modal-box p {
+            margin: 0 0 16px;
+            font-size: 0.85rem;
+            color: #8c6d79;
+        }
+        .modal-box label {
+            display: block;
+            font-size: 0.82rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+            color: #6d3b4e;
+        }
+        .modal-box input, .modal-box select, .modal-box textarea {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 9px 12px;
+            margin-bottom: 12px;
+            border: 1.5px solid #f8bbd0;
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: 0.85rem;
+            color: #5c434c;
+            background: #fff9fb;
+            outline: none;
+        }
+        .modal-box input:focus, .modal-box textarea:focus {
+            border-color: #ec407a;
+            background: #fff;
+        }
+        .btn-enviar-avaliacao {
+            width: 100%;
+            background: linear-gradient(135deg, #f48fb1 0%, #ec407a 100%);
+            color: #fff;
+            border: none;
+            padding: 11px;
+            border-radius: 20px;
+            font-family: inherit;
+            font-weight: 700;
+            font-size: 0.9rem;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(236, 64, 122, 0.25);
+        }
+        .msg-sucesso-avaliacao {
+            display: none;
+            text-align: center;
+            padding: 20px 0;
+            color: #ad1457;
+            font-weight: 700;
+            font-size: 0.95rem;
+        }
     </style>
 </head>
 <body>
     <header>
-        <h1>Cupcake Shop</h1>
+        <a href="/" class="logo">
+            <span class="logo-icon">🧁</span>
+            <span class="logo-text">Sweet Cupcake</span>
+        </a>
         <nav>
             <a href="/">Catálogo</a>
-            <a href="/carrinho" style="font-weight: bold; color: #000;">Carrinho ({{ total_itens }})</a>
+            <a href="/carrinho" class="carrinho-link">🛒 Carrinho ({{ session['carrinho']|length if 'carrinho' in session else 0 }})</a>
         </nav>
     </header>
 
     <div class="container">
-        <div class="titulo-secao">
-            <h2>Nossos Cupcakes</h2>
-            <p>Escolha seus sabores favoritos.</p>
+        <div class="hero-title">
+            <h1>Nossos Cupcakes Artesanais</h1>
+            <p class="subtitulo">Feitos à mão com ingredientes selecionados e muito carinho ✨</p>
         </div>
 
         <div class="grid">
-            {% for cupcake in cupcakes %}
-            <div class="card">
-                <img src="{{ cupcake.imagem }}" alt="{{ cupcake.nome }}">
-                <h3>{{ cupcake.nome }}</h3>
-                <p>{{ cupcake.descricao }}</p>
-                <div class="rodape-card">
-                    <span class="preco">R$ {{ "%.2f"|format(cupcake.preco) }}</span>
-                    <a href="/adicionar/{{ cupcake.id }}">
-                        <button class="btn-adicionar">Adicionar</button>
-                    </a>
+            {% for p in produtos %}
+            {% set is_esgotado = (loop.index == 6) %}
+            <div class="card {{ 'esgotado' if is_esgotado else '' }}">
+                <div>
+                    <div class="img-wrapper">
+                        {% if is_esgotado %}
+                            <span class="badge-favorito">⭐ Favorito</span>
+                            <span class="badge-esgotado">Esgotado</span>
+                        {% elif loop.index == 4 %}
+                            <span class="badge-favorito">💖 Mais Pedido</span>
+                        {% endif %}
+                        <img src="{{ p[4] }}" alt="{{ p[1] }}">
+                    </div>
+                    <h3>{{ p[1] }}</h3>
+                    <p>{{ p[2] }}</p>
+                </div>
+                <div class="card-footer">
+                    <span class="preco">R$ {{ "%.2f"|format(p[3]) }}</span>
+                    {% if is_esgotado %}
+                        <button class="btn-esgotado" disabled title="Produto temporariamente sem estoque">Esgotado</button>
+                    {% else %}
+                        <a href="/adicionar/{{ p[0] }}" class="btn-adicionar">Adicionar +</a>
+                    {% endif %}
                 </div>
             </div>
             {% endfor %}
         </div>
     </div>
+
+    <!-- Botão Flutuante de Avaliação -->
+    <button class="btn-avaliar-flutuante" onclick="abrirModal()">
+        💖 Avaliar o site
+    </button>
+
+    <!-- Modal de Avaliação -->
+    <div class="modal-overlay" id="modalAvaliacao">
+        <div class="modal-box">
+            <button class="modal-close" onclick="fecharModal()">✕</button>
+            <div id="formConteudo">
+                <h4>Avaliar a Sweet Cupcake 🧁</h4>
+                <p>Conte o que funcionou bem ou deixe uma sugestão de melhoria:</p>
+                <form onsubmit="enviarAvaliacao(event)">
+                    <label>Seu nome</label>
+                    <input type="text" placeholder="Ex: Mariana" required>
+                    <label>Nota para o site</label>
+                    <select>
+                        <option value="5">⭐⭐⭐⭐⭐ (5 - Amei!)</option>
+                        <option value="4">⭐⭐⭐⭐ (4 - Muito bom)</option>
+                        <option value="3">⭐⭐⭐ (3 - Bom)</option>
+                    </select>
+                    <label>Seu feedback</label>
+                    <textarea rows="3" placeholder="O que você achou das cores, navegação e carrinho?" required></textarea>
+                    <button type="submit" class="btn-enviar-avaliacao">Enviar Avaliação</button>
+                </form>
+            </div>
+            <div id="msgSucesso" class="msg-sucesso-avaliacao">
+                🌸 Obrigada! Seu feedback foi registrado com sucesso!
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function abrirModal() {
+            document.getElementById('modalAvaliacao').style.display = 'flex';
+            document.getElementById('formConteudo').style.display = 'block';
+            document.getElementById('msgSucesso').style.display = 'none';
+        }
+        function fecharModal() {
+            document.getElementById('modalAvaliacao').style.display = 'none';
+        }
+        function enviarAvaliacao(e) {
+            e.preventDefault();
+            document.getElementById('formConteudo').style.display = 'none';
+            document.getElementById('msgSucesso').style.display = 'block';
+            setTimeout(fecharModal, 1800);
+        }
+    </script>
 </body>
 </html>

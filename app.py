@@ -2,7 +2,7 @@ from flask import Flask, render_template, session, redirect, url_for
 import sqlite3
 
 app = Flask(__name__)
-app.secret_key = 'chave_super_secreta_pit' # Obrigatório para usar o carrinho (session)
+app.secret_key = 'chave_super_secreta_pit'
 
 def iniciar_banco():
     conn = sqlite3.connect('cupcakeshop.db')
@@ -17,61 +17,56 @@ def iniciar_banco():
             imagem TEXT
         )
     ''')
-    cupcakes_iniciais = [
-        ("Baunilha com Laranja", "Cupcake de baunilha suave com raspas de laranja.", 8.50, "https://images.unsplash.com/photo-1576618148400-f54bed99fcfd?q=80&w=300&auto=format&fit=crop"),
-        ("Chocomenta", "Massa de chocolate com cobertura refrescante de menta.", 7.50, "https://images.unsplash.com/photo-1587668178277-295251f900ce?q=80&w=300&auto=format&fit=crop"),
-        ("Morango", "Cupcake de morango com cobertura especial.", 9.00, "https://images.unsplash.com/photo-1614707267537-b85aaf00c4b7?q=80&w=300&auto=format&fit=crop")
+    produtos = [
+        ('Baunilha com Laranja', 'Cupcake de baunilha suave com raspas de laranja.', 8.50, 'https://images.unsplash.com/photo-1519869325930-281384150729?w=500'),
+        ('Chocomenta', 'Massa de chocolate com cobertura refrescante de menta.', 7.50, 'https://images.unsplash.com/photo-1576618148400-f54bed99fcfd?w=500'),
+        ('Morango', 'Cupcake de morango com cobertura especial.', 9.00, 'https://images.unsplash.com/photo-1587668178277-295251f900ce?w=500'),
+        ('Red Velvet', 'Massa aveludada de cacau com cobertura cremosa de cream cheese.', 9.50, 'https://images.unsplash.com/photo-1614707267537-b85aaf00c4b7?w=500'),
+        ('Caramelo Salgado', 'Cupcake amanteigado com recheio e cobertura de caramelo artesanal.', 8.00, 'https://images.unsplash.com/photo-1550617931-e17a7b70dce2?w=500'),
+        ('Pistache Imperial', 'Massa fofinha com ganache de pistache importado. O favorito da casa!', 10.50, 'https://images.unsplash.com/photo-1563729784474-d77dbb933a9e?w=500')
     ]
-    cursor.executemany('INSERT INTO produto (nome, descricao, preco, imagem) VALUES (?, ?, ?, ?)', cupcakes_iniciais)
+    cursor.executemany('INSERT INTO produto (nome, descricao, preco, imagem) VALUES (?, ?, ?, ?)', produtos)
     conn.commit()
     conn.close()
 
 iniciar_banco()
 
 @app.route('/')
-def catalogo():
+def index():
     conn = sqlite3.connect('cupcakeshop.db')
-    conn.row_factory = sqlite3.Row
     cursor = conn.cursor()
     cursor.execute('SELECT * FROM produto')
-    cupcakes = [dict(row) for row in cursor.fetchall()]
+    produtos = cursor.fetchall()
     conn.close()
-    
-    # Conta quantos itens tem no carrinho para mostrar no topo da tela
-    total_itens = len(session.get('carrinho', []))
-    
-    return render_template('index.html', cupcakes=cupcakes, total_itens=total_itens)
+    return render_template('index.html', produtos=produtos)
 
-@app.route('/adicionar/<int:id_produto>')
-def adicionar(id_produto):
-    # Pega o carrinho atual ou cria uma lista vazia, adiciona o item e salva
-    carrinho = session.get('carrinho', [])
-    carrinho.append(id_produto)
+@app.route('/adicionar/<int:id>')
+def adicionar(id):
+    if 'carrinho' not in session:
+        session['carrinho'] = []
+    carrinho = list(session['carrinho'])
+    carrinho.append(id)
     session['carrinho'] = carrinho
-    return redirect(url_for('catalogo'))
+    return redirect(url_for('index'))
 
 @app.route('/carrinho')
-def ver_carrinho():
-    carrinho_ids = session.get('carrinho', [])
-    produtos_carrinho = []
+def carrinho():
+    ids = session.get('carrinho', [])
+    conn = sqlite3.connect('cupcakeshop.db')
+    cursor = conn.cursor()
+    itens = []
     total = 0.0
-    
-    if carrinho_ids:
-        conn = sqlite3.connect('cupcakeshop.db')
-        conn.row_factory = sqlite3.Row
-        cursor = conn.cursor()
-        for pid in carrinho_ids:
-            cursor.execute('SELECT * FROM produto WHERE id = ?', (pid,))
-            prod = dict(cursor.fetchone())
-            produtos_carrinho.append(prod)
-            total += prod['preco']
-        conn.close()
-        
-    return render_template('carrinho.html', produtos=produtos_carrinho, total=total, total_itens=len(carrinho_ids))
+    for item_id in ids:
+        cursor.execute('SELECT * FROM produto WHERE id = ?', (item_id,))
+        prod = cursor.fetchone()
+        if prod:
+            itens.append(prod)
+            total += prod[3]
+    conn.close()
+    return render_template('carrinho.html', itens=itens, produtos=itens, total=total)
 
 @app.route('/finalizar')
 def finalizar():
-    # Limpa o carrinho simulando que o pedido foi concluído
     session.pop('carrinho', None)
     return render_template('sucesso.html')
 

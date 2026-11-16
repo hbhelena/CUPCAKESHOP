@@ -1,36 +1,200 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>Carrinho - Cupcake Shop</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meu Carrinho | Sweet Cupcake</title>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: -apple-system, sans-serif; background-color: #f8f9fa; margin: 0; }
-        header { padding: 20px 50px; background-color: white; border-bottom: 1px solid #eaeaea; display: flex; justify-content: space-between;}
-        .container { max-width: 600px; margin: 40px auto; background: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
-        .item { display: flex; justify-content: space-between; border-bottom: 1px solid #eee; padding: 15px 0; }
-        .total { font-size: 20px; font-weight: bold; margin-top: 20px; text-align: right; }
-        .btn-finalizar { display: block; width: 100%; padding: 15px; background: #28a745; color: white; text-align: center; border: none; border-radius: 6px; margin-top: 20px; text-decoration: none; font-size: 16px; font-weight: bold;}
+        body {
+            font-family: 'Quicksand', 'Segoe UI', sans-serif;
+            background: linear-gradient(180deg, #fff9fb 0%, #fdf2f7 100%);
+            margin: 0;
+            color: #5c434c;
+            min-height: 100vh;
+        }
+        header {
+            background: rgba(255, 255, 255, 0.92);
+            padding: 16px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #fce4ec;
+            box-shadow: 0 4px 15px rgba(244, 143, 177, 0.08);
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+        .logo-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #fce4ec 0%, #f8bbd0 100%);
+            border-radius: 50%;
+            font-size: 1.35rem;
+            border: 2px solid #fff;
+        }
+        .logo-text {
+            font-family: 'Pacifico', cursive;
+            font-size: 1.55rem;
+            color: #d81b60;
+        }
+        nav { display: flex; align-items: center; gap: 16px; }
+        nav a {
+            text-decoration: none;
+            color: #88606e;
+            font-size: 0.95rem;
+            font-weight: 600;
+            padding: 8px 16px;
+            border-radius: 20px;
+        }
+        nav a.carrinho-link {
+            background: #fce4ec;
+            color: #c2185b;
+            font-weight: 700;
+            border: 1px solid #f8bbd0;
+        }
+        .container {
+            max-width: 680px;
+            margin: 45px auto;
+            padding: 0 20px;
+        }
+        .card-carrinho {
+            background: #fff;
+            border: 1.5px solid #fce4ec;
+            border-radius: 20px;
+            padding: 28px;
+            box-shadow: 0 8px 24px rgba(244, 143, 177, 0.12);
+        }
+        h1 {
+            font-size: 1.6rem;
+            color: #ad1457;
+            margin-top: 0;
+            margin-bottom: 20px;
+        }
+        .item-linha {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 0;
+            border-bottom: 1px dashed #f8bbd0;
+        }
+        .item-info {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+        .item-info img {
+            width: 54px;
+            height: 54px;
+            object-fit: cover;
+            border-radius: 10px;
+            border: 1px solid #fce4ec;
+        }
+        .item-nome {
+            font-weight: 700;
+            color: #6d3b4e;
+            font-size: 1rem;
+        }
+        .item-preco {
+            font-weight: 700;
+            color: #c2185b;
+            font-size: 1rem;
+        }
+        .total-box {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 22px;
+            padding-top: 16px;
+            border-top: 2px solid #fce4ec;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #ad1457;
+        }
+        .acoes {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 28px;
+            gap: 12px;
+        }
+        .btn-voltar {
+            text-decoration: none;
+            color: #88606e;
+            font-weight: 700;
+            font-size: 0.92rem;
+            padding: 10px 18px;
+            border-radius: 20px;
+            border: 1.5px solid #f8bbd0;
+            background: #fff9fb;
+        }
+        .btn-finalizar {
+            background: linear-gradient(135deg, #f48fb1 0%, #ec407a 100%);
+            color: #fff;
+            text-decoration: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            box-shadow: 0 4px 14px rgba(236, 64, 122, 0.3);
+        }
+        .vazio {
+            text-align: center;
+            padding: 30px 0;
+            color: #9e7b88;
+        }
     </style>
 </head>
 <body>
     <header>
-        <h1 style="margin: 0; font-size: 24px;">Cupcake Shop</h1>
-        <a href="/" style="color: #333; text-decoration: none; padding-top: 5px;">Voltar ao Catálogo</a>
+        <a href="/" class="logo">
+            <span class="logo-icon">🧁</span>
+            <span class="logo-text">Sweet Cupcake</span>
+        </a>
+        <nav>
+            <a href="/">Catálogo</a>
+            <a href="/carrinho" class="carrinho-link">🛒 Carrinho ({{ itens|length }})</a>
+        </nav>
     </header>
+
     <div class="container">
-        <h2>Seu Carrinho ({{ total_itens }})</h2>
-        {% if total_itens > 0 %}
-            {% for prod in produtos %}
-            <div class="item">
-                <span>{{ prod.nome }}</span>
-                <span>R$ {{ "%.2f"|format(prod.preco) }}</span>
-            </div>
-            {% endfor %}
-            <div class="total">Total: R$ {{ "%.2f"|format(total) }}</div>
-            <a href="/finalizar" class="btn-finalizar">Finalizar Pedido Simulado</a>
-        {% else %}
-            <p>Seu carrinho está vazio.</p>
-        {% endif %}
+        <div class="card-carrinho">
+            <h1>Seu Carrinho de Doces 🧁</h1>
+
+            {% if itens and itens|length > 0 %}
+                {% for item in itens %}
+                <div class="item-linha">
+                    <div class="item-info">
+                        <img src="{{ item[4] }}" alt="{{ item[1] }}">
+                        <span class="item-nome">{{ item[1] }}</span>
+                    </div>
+                    <span class="item-preco">R$ {{ "%.2f"|format(item[3]) }}</span>
+                </div>
+                {% endfor %}
+
+                <div class="total-box">
+                    <span>Total do Pedido</span>
+                    <span>R$ {{ "%.2f"|format(total) }}</span>
+                </div>
+
+                <div class="acoes">
+                    <a href="/" class="btn-voltar">← Continuar Comprando</a>
+                    <a href="/finalizar" class="btn-finalizar">Finalizar Pedido Simulado ✨</a>
+                </div>
+            {% else %}
+                <div class="vazio">
+                    <p>Seu carrinho ainda está vazio.</p>
+                    <br>
+                    <a href="/" class="btn-finalizar">Escolher Cupcakes</a>
+                </div>
+            {% endif %}
+        </div>
     </div>
 </body>
 </html>

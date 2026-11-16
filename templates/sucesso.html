@@ -1,19 +1,79 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>Pedido Confirmado</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pedido Realizado | Sweet Cupcake</title>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: -apple-system, sans-serif; background-color: #f8f9fa; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; text-align: center;}
-        .box { background: white; padding: 50px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
-        .btn-voltar { display: inline-block; margin-top: 20px; padding: 10px 20px; background: #333; color: white; text-decoration: none; border-radius: 6px; }
+        body {
+            font-family: 'Quicksand', 'Segoe UI', sans-serif;
+            background: linear-gradient(180deg, #fff9fb 0%, #fdf2f7 100%);
+            margin: 0;
+            color: #5c434c;
+            min-height: 100vh;
+        }
+        header {
+            background: rgba(255, 255, 255, 0.92);
+            padding: 16px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #fce4ec;
+        }
+        .logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+        .logo-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #fce4ec 0%, #f8bbd0 100%);
+            border-radius: 50%;
+            font-size: 1.35rem;
+        }
+        .logo-text { font-family: 'Pacifico', cursive; font-size: 1.55rem; color: #d81b60; }
+        .card-sucesso {
+            max-width: 480px;
+            margin: 70px auto;
+            background: #fff;
+            border: 1.5px solid #fce4ec;
+            border-radius: 22px;
+            padding: 40px 30px;
+            text-align: center;
+            box-shadow: 0 10px 28px rgba(244, 143, 177, 0.15);
+        }
+        .icone-check {
+            font-size: 3rem;
+            margin-bottom: 10px;
+        }
+        h1 { color: #ad1457; font-size: 1.7rem; margin: 8px 0 10px; }
+        p { color: #8c6d79; font-size: 0.96rem; line-height: 1.5; margin-bottom: 28px; }
+        .btn-voltar {
+            display: inline-block;
+            background: linear-gradient(135deg, #f48fb1 0%, #ec407a 100%);
+            color: #fff;
+            text-decoration: none;
+            padding: 12px 28px;
+            border-radius: 25px;
+            font-weight: 700;
+            box-shadow: 0 4px 14px rgba(236, 64, 122, 0.3);
+        }
     </style>
 </head>
 <body>
-    <div class="box">
-        <h1 style="color: #28a745;">Pedido Realizado!</h1>
-        <p>Seus cupcakes já estão sendo preparados.</p>
-        <a href="/" class="btn-voltar">Fazer novo pedido</a>
+    <header>
+        <a href="/" class="logo">
+            <span class="logo-icon">🧁</span>
+            <span class="logo-text">Sweet Cupcake</span>
+        </a>
+    </header>
+
+    <div class="card-sucesso">
+        <div class="icone-check">🎉🧁</div>
+        <h1>Pedido Realizado!</h1>
+        <p>Obrigada pela sua compra na <strong>Sweet Cupcake</strong>! Seu pedido simulado foi confirmado com sucesso e o carrinho foi esvaziado.</p>
+        <a href="/" class="btn-voltar">Voltar para a Vitrine</a>
     </div>
 </body>
 </html>
