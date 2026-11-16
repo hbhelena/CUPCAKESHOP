@@ -20,7 +20,7 @@ class TestCupcakeShop(unittest.TestCase):
     def test_2_carregamento_catalogo(self):
         response = self.client.get('/')
         self.assertEqual(response.status_code, 200)
-        self.assertIn('Baunilha com Laranja'.encode('utf-8'), response.data)
+        self.assertIn('Chocomenta'.encode('utf-8'), response.data)
 
     def test_3_fluxo_carrinho_e_finalizacao(self):
         self.client.get('/adicionar/1')

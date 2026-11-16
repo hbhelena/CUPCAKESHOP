@@ -18,12 +18,12 @@ def iniciar_banco():
         )
     ''')
     produtos = [
-        ('Baunilha com Laranja', 'Cupcake de baunilha suave com raspas de laranja.', 8.50, 'https://images.unsplash.com/photo-1519869325930-281384150729?w=500'),
-        ('Chocomenta', 'Massa de chocolate com cobertura refrescante de menta.', 7.50, 'https://images.unsplash.com/photo-1576618148400-f54bed99fcfd?w=500'),
-        ('Morango', 'Cupcake de morango com cobertura especial.', 9.00, 'https://images.unsplash.com/photo-1587668178277-295251f900ce?w=500'),
-        ('Red Velvet', 'Massa aveludada de cacau com cobertura cremosa de cream cheese.', 9.50, 'https://images.unsplash.com/photo-1614707267537-b85aaf00c4b7?w=500'),
-        ('Caramelo Salgado', 'Cupcake amanteigado com recheio e cobertura de caramelo artesanal.', 8.00, 'https://images.unsplash.com/photo-1550617931-e17a7b70dce2?w=500'),
-        ('Pistache Imperial', 'Massa fofinha com ganache de pistache importado. O favorito da casa!', 10.50, 'https://images.unsplash.com/photo-1563729784474-d77dbb933a9e?w=500')
+        ('Chocolate Branco', 'Cupcake de baunilha com cobertura cremosa de chocolate branco e granulados.', 8.50, 'img/chocolatebranco-com-granulados.jpg'),
+        ('Chocomenta', 'Massa de chocolate com cobertura refrescante de menta.', 7.50, 'img/chocomenta.jpg'),
+        ('Morango Imperial', 'Cupcake artesanal com cobertura cremosa e morango fresco no topo.', 9.00, 'img/morango.jpg'),
+        ('Red Velvet', 'Massa aveludada de cacau com cobertura cremosa de cream cheese.', 9.50, 'img/redvelvet.jpg'),
+        ('Chocolate Intenso', 'Massa fofinha de cacau com ganache de chocolate e confeitos coloridos.', 8.00, 'img/chocolate.jpg'),
+        ('Pistache com Chocolate', 'Massa de chocolate com creme artesanal de pistache. O favorito da casa!', 10.50, 'img/pistache-massa-de-chocolate.jpg')
     ]
     cursor.executemany('INSERT INTO produto (nome, descricao, preco, imagem) VALUES (?, ?, ?, ?)', produtos)
     conn.commit()
