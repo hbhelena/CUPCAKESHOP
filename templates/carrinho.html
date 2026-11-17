@@ -12,6 +12,7 @@
             margin: 0;
             color: #5c434c;
             min-height: 100vh;
+            overflow-x: hidden;
         }
         header {
             background: rgba(255, 255, 255, 0.92);
@@ -21,6 +22,8 @@
             align-items: center;
             border-bottom: 2px solid #fce4ec;
             box-shadow: 0 4px 15px rgba(244, 143, 177, 0.08);
+            box-sizing: border-box;
+            width: 100%;
         }
         .logo {
             display: flex;
@@ -38,11 +41,13 @@
             border-radius: 50%;
             font-size: 1.35rem;
             border: 2px solid #fff;
+            flex-shrink: 0;
         }
         .logo-text {
             font-family: 'Pacifico', cursive;
             font-size: 1.55rem;
             color: #d81b60;
+            white-space: nowrap;
         }
         nav { display: flex; align-items: center; gap: 16px; }
         nav a {
@@ -52,6 +57,7 @@
             font-weight: 600;
             padding: 8px 16px;
             border-radius: 20px;
+            white-space: nowrap;
         }
         nav a.carrinho-link {
             background: #fce4ec;
@@ -93,6 +99,7 @@
             width: 54px;
             height: 54px;
             object-fit: cover;
+            object-position: center 65%;
             border-radius: 10px;
             border: 1px solid #fce4ec;
         }
@@ -133,6 +140,7 @@
             border-radius: 20px;
             border: 1.5px solid #f8bbd0;
             background: #fff9fb;
+            text-align: center;
         }
         .btn-finalizar {
             background: linear-gradient(135deg, #f48fb1 0%, #ec407a 100%);
@@ -143,11 +151,49 @@
             font-weight: 700;
             font-size: 0.95rem;
             box-shadow: 0 4px 14px rgba(236, 64, 122, 0.3);
+            text-align: center;
         }
         .vazio {
             text-align: center;
             padding: 30px 0;
             color: #9e7b88;
+        }
+        @media (max-width: 600px) {
+            header {
+                padding: 10px 12px;
+            }
+            .logo {
+                gap: 6px;
+            }
+            .logo-icon {
+                width: 28px;
+                height: 28px;
+                font-size: 0.95rem;
+            }
+            .logo-text {
+                font-size: 1.05rem;
+            }
+            nav {
+                gap: 4px;
+            }
+            nav a {
+                font-size: 0.78rem;
+                padding: 6px 8px;
+            }
+            .container {
+                margin: 25px auto;
+                padding: 0 14px;
+            }
+            .card-carrinho {
+                padding: 20px 16px;
+            }
+            .acoes {
+                flex-direction: column-reverse;
+            }
+            .btn-voltar, .btn-finalizar {
+                width: 100%;
+                box-sizing: border-box;
+            }
         }
     </style>
 </head>
@@ -171,7 +217,7 @@
                 {% for item in itens %}
                 <div class="item-linha">
                     <div class="item-info">
-                        <img src="{{ item[4] }}" alt="{{ item[1] }}">
+                        <img src="{{ url_for('static', filename=item[4]) }}" alt="{{ item[1] }}">
                         <span class="item-nome">{{ item[1] }}</span>
                     </div>
                     <span class="item-preco">R$ {{ "%.2f"|format(item[3]) }}</span>
