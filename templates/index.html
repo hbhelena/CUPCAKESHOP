@@ -12,6 +12,7 @@
             margin: 0;
             color: #5c434c;
             min-height: 100vh;
+            overflow-x: hidden;
         }
         header {
             background: rgba(255, 255, 255, 0.92);
@@ -25,6 +26,8 @@
             position: sticky;
             top: 0;
             z-index: 100;
+            box-sizing: border-box;
+            width: 100%;
         }
         .logo {
             display: flex;
@@ -44,12 +47,14 @@
             animation: floatIcon 2.8s ease-in-out infinite;
             box-shadow: 0 3px 10px rgba(236, 64, 122, 0.18);
             border: 2px solid #fff;
+            flex-shrink: 0;
         }
         .logo-text {
             font-family: 'Pacifico', cursive;
             font-size: 1.55rem;
             color: #d81b60;
             letter-spacing: 0.5px;
+            white-space: nowrap;
         }
         @keyframes floatIcon {
             0%, 100% { transform: translateY(0) rotate(0deg); }
@@ -68,6 +73,7 @@
             padding: 8px 16px;
             border-radius: 20px;
             transition: all 0.2s;
+            white-space: nowrap;
         }
         nav a:hover {
             color: #d81b60;
@@ -139,11 +145,13 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
+            object-position: center 65%;
             border-radius: 12px;
+            transform: scale(1.12);
             transition: transform 0.3s ease;
         }
         .card:hover img {
-            transform: scale(1.03);
+            transform: scale(1.20);
         }
         .card.esgotado img {
             filter: grayscale(35%) opacity(0.82);
@@ -343,37 +351,29 @@
             font-weight: 700;
             font-size: 0.95rem;
         }
-    </style>
-</head>
-body {
-            overflow-x: hidden;
-        }
+
+        /* Ajustes para Celular */
         @media (max-width: 600px) {
             header {
-                padding: 10px 12px;
-                box-sizing: border-box;
-                width: 100%;
+                padding: 10px 10px;
             }
             .logo {
-                gap: 6px;
+                gap: 5px;
             }
             .logo-icon {
-                width: 28px;
-                height: 28px;
-                font-size: 0.95rem;
-                flex-shrink: 0;
+                width: 26px;
+                height: 26px;
+                font-size: 0.9rem;
             }
             .logo-text {
-                font-size: 1.05rem;
-                white-space: nowrap;
+                font-size: 1rem;
             }
             nav {
                 gap: 4px;
             }
             nav a {
-                font-size: 0.78rem;
-                padding: 6px 8px;
-                white-space: nowrap;
+                font-size: 0.75rem;
+                padding: 5px 8px;
             }
             .container {
                 margin: 24px auto 50px;
@@ -383,3 +383,103 @@ body {
                 font-size: 1.45rem;
             }
         }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <span class="logo-icon">🧁</span>
+            <span class="logo-text">Sweet Cupcake</span>
+        </a>
+        <nav>
+            <a href="/">Catálogo</a>
+            <a href="/carrinho" class="carrinho-link">🛒 Carrinho ({{ session['carrinho']|length if 'carrinho' in session else 0 }})</a>
+        </nav>
+    </header>
+
+    <div class="container">
+        <div class="hero-title">
+            <h1>Nossos Cupcakes Artesanais</h1>
+            <p class="subtitulo">Feitos à mão com ingredientes selecionados e muito carinho ✨</p>
+        </div>
+
+        <div class="grid">
+            {% for p in produtos %}
+            {% set is_esgotado = (loop.index == 6) %}
+            <div class="card {{ 'esgotado' if is_esgotado else '' }}">
+                <div>
+                    <div class="img-wrapper">
+                        {% if is_esgotado %}
+                            <span class="badge-favorito">⭐ Favorito</span>
+                            <span class="badge-esgotado">Esgotado</span>
+                        {% elif loop.index == 4 %}
+                            <span class="badge-favorito">💖 Mais Pedido</span>
+                        {% endif %}
+                        <img src="{{ url_for('static', filename=p[4]) }}" alt="{{ p[1] }}">
+                    </div>
+                    <h3>{{ p[1] }}</h3>
+                    <p>{{ p[2] }}</p>
+                </div>
+                <div class="card-footer">
+                    <span class="preco">R$ {{ "%.2f"|format(p[3]) }}</span>
+                    {% if is_esgotado %}
+                        <button class="btn-esgotado" disabled title="Produto temporariamente sem estoque">Esgotado</button>
+                    {% else %}
+                        <a href="/adicionar/{{ p[0] }}" class="btn-adicionar">Adicionar +</a>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Botão Flutuante de Avaliação -->
+    <button class="btn-avaliar-flutuante" onclick="abrirModal()">
+        💖 Avaliar o site
+    </button>
+
+    <!-- Modal de Avaliação -->
+    <div class="modal-overlay" id="modalAvaliacao">
+        <div class="modal-box">
+            <button class="modal-close" onclick="fecharModal()">✕</button>
+            <div id="formConteudo">
+                <h4>Avaliar a Sweet Cupcake 🧁</h4>
+                <p>Conte o que funcionou bem ou deixe uma sugestão de melhoria:</p>
+                <form onsubmit="enviarAvaliacao(event)">
+                    <label>Seu nome</label>
+                    <input type="text" placeholder="Ex: Mariana" required>
+                    <label>Nota para o site</label>
+                    <select>
+                        <option value="5">⭐⭐⭐⭐⭐ (5 - Amei!)</option>
+                        <option value="4">⭐⭐⭐⭐ (4 - Muito bom)</option>
+                        <option value="3">⭐⭐⭐ (3 - Bom)</option>
+                    </select>
+                    <label>Seu feedback</label>
+                    <textarea rows="3" placeholder="O que você achou das cores, navegação e carrinho?" required></textarea>
+                    <button type="submit" class="btn-enviar-avaliacao">Enviar Avaliação</button>
+                </form>
+            </div>
+            <div id="msgSucesso" class="msg-sucesso-avaliacao">
+                🌸 Obrigada! Seu feedback foi registrado com sucesso!
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function abrirModal() {
+            document.getElementById('modalAvaliacao').style.display = 'flex';
+            document.getElementById('formConteudo').style.display = 'block';
+            document.getElementById('msgSucesso').style.display = 'none';
+        }
+        function fecharModal() {
+            document.getElementById('modalAvaliacao').style.display = 'none';
+        }
+        function enviarAvaliacao(e) {
+            e.preventDefault();
+            document.getElementById('formConteudo').style.display = 'none';
+            document.getElementById('msgSucesso').style.display = 'block';
+            setTimeout(fecharModal, 1800);
+        }
+    </script>
+</body>
+</html>
